@@ -78,7 +78,7 @@ const viewExamController = async (req, res) => {
     try {
         const TeacherMail = req.obj
         errorMsg(await TeacherValidation(TeacherMail))
-        const examObject = await ExamsData.find({ email: TeacherMail, status: true })
+        const examObject = await ExamsData.find({ email: TeacherMail, status: true },{status:0})
         return res.json({ statusCode: 200, message: "View exam successfully", data: examObject })
     } catch (error) {
         return res.json({ statusCode: 500, message: error.message, data: null })

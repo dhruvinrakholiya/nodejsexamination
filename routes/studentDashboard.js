@@ -12,7 +12,7 @@ router.post('/giveExam', TokenVerify, validate(giveExamValidation), giveExamCont
 
 router.use((err, req, res, next) => {
     if (err instanceof ValidationError) {
-        return res.status(err.statusCode).json(err)
+        return res.status(err.statusCode).json(err.message)
     }
     return res.status(500).json(err)
 })
