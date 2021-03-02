@@ -3,8 +3,13 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www",
-    "debug": "nodemon --inspect ./bin/www"
+    "heroku:prebuild": "rimraf dist",
+    "start": "NODE_ENV=staging node ./bin/www",
+    "start:dev": "nodemon ./bin/www",
+    "debug": "nodemon --inspect ./bin/www",
+    "prestart:staging": "rimraf dist && npm run build",
+    "postinstall": "npm run prestart:staging",
+    "heroku-postbuild": "npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
