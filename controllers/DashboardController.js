@@ -78,7 +78,7 @@ const viewExamController = async (req, res) => {
     try {
         const TeacherMail = req.obj
         errorMsg(await TeacherValidation(TeacherMail))
-        const examObject = await ExamsData.find({ email: TeacherMail, status: true },{status:0})
+        const examObject = await ExamsData.find({ email: TeacherMail, status: true },{status:0,questions:0})
         return res.json({ statusCode: 200, message: "View exam successfully", data: examObject })
     } catch (error) {
         return res.json({ statusCode: 500, message: error.message, data: null })
@@ -127,7 +127,7 @@ const deleteExamController = async (req, res) => {
         const examObject = await ExamsData.findOne({ _id: id, email: TeacherMail })
         examObject.status = false
         await examObject.save()
-        return res.json({ statusCode: 200, message: "Delete exam successfully", data: examObject })
+        return res.json({ statusCode: 200, message: "Delete exam successfully", data: null })
     } catch (error) {
         return res.json({ statusCode: 500, message: error.message, data: null })
     }
