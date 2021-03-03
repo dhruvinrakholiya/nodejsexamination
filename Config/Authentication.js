@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken')
 const { UserData } = require('../models/UsersModel')
 //Token Generate
-const TokenGenerate = (email, id) => {
-    return jwt.sign({ email: email, _id: id }, process.env.JWT_SECRET_KEY, { expiresIn: 3600 });
+const TokenGenerate = (email, _id, expiresIn = 3600) => {
+    return jwt.sign({ email, _id }, process.env.JWT_SECRET_KEY, { expiresIn });
 }
 
 const TokenVerify = async (req, res, next) => {

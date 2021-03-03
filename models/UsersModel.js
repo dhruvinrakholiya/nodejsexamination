@@ -6,7 +6,7 @@ const UsersSchema = new mongoose.Schema({
     password: { type: String, required: true },
     role: { type: String, required: true },
     token: { type: String, default: null },
-    VerifyCode: { type: String },
+    verifyCodeToken: { type: String },
     status: { type: String, default: "Pending" }
 }, { collection: 'users' })
 

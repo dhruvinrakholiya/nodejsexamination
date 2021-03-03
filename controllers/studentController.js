@@ -163,7 +163,7 @@ const examPaperController = async (req, res) => {
         if (resultDetail) throw Error('You can not give exam again')
 
         const examPaperObject = await ExamsData.findOne({ _id: subjectId }, { subjectName: 1, "questions._id": 1, "questions.question": 1, "questions.options": 1, notes: 1 })
-        const checkExamPaperGenerated = await examPapersData.findOne({ studentId, subjectId, isPaperGenerated: true })
+        let checkExamPaperGenerated = await examPapersData.findOne({ studentId, subjectId, isPaperGenerated: true })
         if (!checkExamPaperGenerated) {
             const randomExamPaperArray = examPaperRandom(examPaperObject.questions, randomPaper)
             const questionsId = randomExamPaperArray.map((data) => data._id)
@@ -172,7 +172,7 @@ const examPaperController = async (req, res) => {
                 questions: questionsId,
                 studentId: studentId
             }
-            await examPapersData.create(randomExamPaperObject)
+            checkExamPaperGenerated = await examPapersData.create(randomExamPaperObject)
         }
         const checkExamPaperQuestions = checkExamPaperGenerated.questions
 
