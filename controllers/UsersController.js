@@ -78,10 +78,10 @@ const ForgotPasswordController = async (req, res) => {
         if (UserObject.status !== 'Active') throw new Error('Please Verify your email')
         const MailSubject = "Forgot Password"   //Mail Subject
         const MailText = "Forgot Old Password and Generate New Password" //Mail Text
-        const verifyCode = TokenGenerate(UserObject.email);
-        UserObject.VerifyCode = verifyCode;
+        const token = TokenGenerate(UserObject.email);
+        UserObject.token = token;
         await UserObject.save();
-        const ForgotPasswordLink = MailLink({ req: process.env.FRONTEND_URL, api: 'newPassword', code: verifyCode })
+        const ForgotPasswordLink = MailLink({ req: process.env.FRONTEND_URL, api: 'newPassword', code: UserObject.token })
         const ForgotPasswordFile = './views/ForgotPassword.ejs'
         const UserDetailObject = { name: UserObject.name, link: ForgotPasswordLink }
         const MailObject = { email: UserObject.email, file: ForgotPasswordFile, UserDetails: UserDetailObject, subject: MailSubject, text: MailText } // Mail Detail Object
