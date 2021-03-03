@@ -96,7 +96,7 @@ const studentValidation = async (email) => {
 
 const ExamChecker = async (value) => {
     try {
-        return await ExamsData.findOne({ subjectName: value })
+        return await ExamsData.findOne({ subjectName: value, status:true })
     } catch (error) {
         throw Error(error.message);
     }
