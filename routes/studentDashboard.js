@@ -2,11 +2,12 @@ const express = require('express');
 const { TokenVerify } = require('../Config/Authentication')
 const { validate, ValidationError } = require('express-validation')
 const { giveExamValidation } = require('../Config/UsersValidation')
-const { studentExamController, studentProfileController, giveExamController, examPaperController } = require('../controllers/studentController')
+const { studentExamController, studentProfileController, giveExamController, examPaperController, getStudentProfileController } = require('../controllers/studentController')
 const router = express.Router();
 
 router.get('/studentExam', TokenVerify, studentExamController)
 router.put('/studentProfile', TokenVerify, studentProfileController)
+router.get('/getStudentDetail', TokenVerify, getStudentProfileController)
 router.get('/examPaper', TokenVerify, examPaperController)
 router.post('/giveExam', TokenVerify, validate(giveExamValidation), giveExamController)
 

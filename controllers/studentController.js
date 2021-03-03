@@ -82,11 +82,9 @@ const studentExamController = async (req, res) => {
 const studentProfileController = async (req, res) => {
     try {
         errorMsg(await studentValidation(req.obj))
-        const { name, email } = req.body
+        const { name } = req.body
         const obj = {}
-
         if (name) obj.name = name
-        if (email) obj.email = email
         const studentObject = await UserData.findOneAndUpdate({ email: req.obj }, { $set: obj }, { new: true })
 
         return res.json({ statusCode: 200, message: "View student profile successfully", data: { name: studentObject.name, email: studentObject.email, id: studentObject._id } })
@@ -187,4 +185,14 @@ const examPaperController = async (req, res) => {
     }
 }
 
-module.exports = { studentExamController, studentProfileController, giveExamController, examPaperController }
+const getStudentProfileController = async (req, res) => {
+    try {
+        errorMsg(await studentValidation(req.obj))
+        const studentObject = await UserData.findOne({ email : req.obj },{_id:1,name:1,email:1,role:1})
+        return res.json({ statusCode: 200, message: "get student profile successfully", data: studentObject })
+    } catch (error) {
+        return res.json({ statusCode: 500, message: error.message, data: null })
+    }
+}
+
+module.exports = { studentExamController, studentProfileController, giveExamController, examPaperController, getStudentProfileController }
