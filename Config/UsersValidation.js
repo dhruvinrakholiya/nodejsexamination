@@ -27,6 +27,14 @@ const newPasswordValidation = {
     })
 }
 
+const resetPasswordValidation = {
+    body: Joi.object({
+        oldPassword: Joi.string().regex(/[a-zA-Z0-9]{6,30}/).required(),
+        Password: Joi.string().regex(/[a-zA-Z0-9]{6,30}/).required(),
+        ConfirmPassword: Joi.string().regex(/[a-zA-Z0-9]{6,30}/).required()
+    })
+}
+
 let questionValidate = Joi.object().keys({
     question: Joi.string().required(),
     answer: Joi.string().required(),
@@ -110,4 +118,4 @@ const examPaperRandom = (oldArray, newArray) => {
     return newArray;
 }
 
-module.exports = { UsersValidation, EmailChecker, TeacherValidation, ExamChecker, studentValidation, examPaperRandom, giveExamValidation, createExamValidation, loginValidation, forgotPasswordEmailValidation, editExamValidation, newPasswordValidation }
+module.exports = { UsersValidation, EmailChecker, TeacherValidation, ExamChecker, studentValidation, examPaperRandom, resetPasswordValidation, giveExamValidation, createExamValidation, loginValidation, forgotPasswordEmailValidation, editExamValidation, newPasswordValidation }

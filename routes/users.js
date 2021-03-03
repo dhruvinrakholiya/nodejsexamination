@@ -1,7 +1,7 @@
 const express = require('express');
 const { validate, ValidationError } = require('express-validation');
 const { TokenVerify } = require('../Config/Authentication');
-const { UsersValidation, loginValidation, forgotPasswordEmailValidation, newPasswordValidation } = require('../Config/UsersValidation')
+const { UsersValidation, loginValidation, forgotPasswordEmailValidation, newPasswordValidation, resetPasswordValidation } = require('../Config/UsersValidation')
 const { SignUp, VerificationController, LoginController, ForgotPasswordController, ForgotPasswordVerifyController, ResetPasswordController } = require('../controllers/UsersController')
 var router = express.Router();
 
@@ -14,7 +14,7 @@ router.get('/Verify', VerificationController)
 router.post('/Login', validate(loginValidation), LoginController)
 router.post('/ForgotPassword', validate(forgotPasswordEmailValidation), ForgotPasswordController)
 router.post('/ForgotPassword/Verify', validate(newPasswordValidation), ForgotPasswordVerifyController)
-router.post('/ResetPassword', TokenVerify, validate(newPasswordValidation), ResetPasswordController)
+router.post('/ResetPassword', TokenVerify, validate(resetPasswordValidation), ResetPasswordController)
 
 router.use((err, req, res, next) => {
   if (err instanceof ValidationError) {

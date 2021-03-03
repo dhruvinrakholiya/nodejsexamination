@@ -13,8 +13,8 @@ const SignUp = async (req, res) => {
         const CheckedEmail = await EmailChecker(email) //Check Email in Database
         if (CheckedEmail) throw new Error('Email already exist')
         userPassword = await bcrypt.hash(password, saltRounds);
-        userRole=role.toLowerCase();
-        const UserObj = await UserData.create({ name, email, password: userPassword, role:userRole }) //Insert Data
+        userRole = role.toLowerCase();
+        const UserObj = await UserData.create({ name, email, password: userPassword, role: userRole }) //Insert Data
         const UserToken = TokenGenerate(email) //Generate Token
         UserObj.token = UserToken //Add token
         const VerificationCode = email + Math.floor(100000 + Math.random() * 900000) + password
@@ -96,10 +96,10 @@ const ForgotPasswordController = async (req, res) => {
 //Forgot Password Verify 
 const ForgotPasswordVerifyController = async (req, res) => {
     try {
-        const id = req.query.id
+        const token = req.query.token
         const { Password, ConfirmPassword } = req.body
         if (Password !== ConfirmPassword) throw new Error("Password Not Matched")
-        const UserObject = await UserData.findOne({ VerifyCode: id })
+        const UserObject = await UserData.findOne({ token })
         if (!UserObject) throw new Error('Invalid Email')
         const userPassword = await bcrypt.hash(Password, saltRounds);
         UserObject.password = userPassword
@@ -113,9 +113,11 @@ const ForgotPasswordVerifyController = async (req, res) => {
 const ResetPasswordController = async (req, res) => {
     try {
         const UserEmail = req.obj
-        const { Password, ConfirmPassword } = req.body
-        if (Password !== ConfirmPassword) throw new Error("Password Not Matched")
+        const { oldPassword, Password, ConfirmPassword } = req.body
+        if (Password !== ConfirmPassword) throw new Error("Confirm Password Not Matched")
         const UserObject = await UserData.findOne({ email: UserEmail })
+        const comparePassword = await bcrypt.compare(oldPassword, UserObject.password)
+        if(!comparePassword) throw new Error("Invalid Old Password");
         const userPassword = await bcrypt.hash(Password, saltRounds);
         UserObject.password = userPassword
         await UserObject.save()

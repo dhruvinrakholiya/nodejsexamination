@@ -30,7 +30,7 @@ const SendMail = async (mail) => {
 }
 
 const MailLink = (detail) => {
-    return detail.req + '/' + detail.api + '?id=' + detail.code;
+    return detail.req + '/' + detail.api + '?token=' + detail.code;
     // return process.env.FRONTEND_URL + '/users/'+detail.api+'?id=' + detail.code;
 }
 
