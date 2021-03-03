@@ -83,9 +83,7 @@ const studentProfileController = async (req, res) => {
     try {
         errorMsg(await studentValidation(req.obj))
         const { name } = req.body
-        const obj = {}
-        if (name) obj.name = name
-        const studentObject = await UserData.findOneAndUpdate({ email: req.obj }, { $set: obj }, { new: true })
+        const studentObject = await UserData.findOneAndUpdate({ email: req.obj }, { $set: { name } }, { new: true })
 
         return res.json({ statusCode: 200, message: "View student profile successfully", data: { name: studentObject.name, email: studentObject.email, id: studentObject._id } })
     } catch (error) {

@@ -48,6 +48,11 @@ const createExamValidation = {
         questions: Joi.array().items(questionValidate).min(15).required()
     })
 }
+const editProfileValidation = {
+    body: Joi.object({
+        name: Joi.string().required(),
+    })
+}
 
 const editExamValidation = {
     body: Joi.object({
@@ -118,4 +123,4 @@ const examPaperRandom = (oldArray, newArray) => {
     return newArray;
 }
 
-module.exports = { UsersValidation, EmailChecker, TeacherValidation, ExamChecker, studentValidation, examPaperRandom, resetPasswordValidation, giveExamValidation, createExamValidation, loginValidation, forgotPasswordEmailValidation, editExamValidation, newPasswordValidation }
+module.exports = { UsersValidation, EmailChecker, TeacherValidation, ExamChecker, studentValidation, examPaperRandom, resetPasswordValidation, giveExamValidation, createExamValidation, loginValidation, forgotPasswordEmailValidation, editExamValidation, newPasswordValidation, editProfileValidation }
