@@ -21,7 +21,7 @@ const SignUp = async (req, res) => {
         UserObj.VerifyCode = VerificationCode
         await UserObj.save() //Save Data
         //Sending Verification Mail in Mailbox
-        const VerificationLink = MailLink({ req: process.env.BACKEND_MAIl_URL + "/users", api: 'Verify', code: UserObj.VerifyCode }) //Link Create
+        const VerificationLink = MailLink({ req: process.env.BACKEND_MAIl_URL + "/users", api: 'Verify', code: UserObj.token }) //Link Create
         const VerificationFile = './views/VerificationMail.ejs'
         const UserDetailObject = { name: name, VerifyCode: VerificationLink }
         const MailSubject = "Account Verification"
@@ -40,8 +40,8 @@ const SignUp = async (req, res) => {
 //Verification Controller
 const VerificationController = async (req, res) => {
     try {
-        const id = req.query.id
-        let UserObj = await UserData.findOne({ VerifyCode: id })
+        const token = req.query.token
+        let UserObj = await UserData.findOne({ token })
         if (!UserObj) throw new Error('Verification Failed')
         UserObj.status = "Active"
         await UserObj.save()
