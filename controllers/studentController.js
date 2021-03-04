@@ -157,7 +157,6 @@ const examPaperController = async (req, res) => {
         //Check you can give exam
         const resultDetail = await resultsData.findOne({ studentId: studentId, subjectName: examDetail.subjectName })
         if (resultDetail) throw Error('You can not give exam again')
-
         const examPaperObject = await ExamsData.findOne({ _id: subjectId }, { subjectName: 1, "questions._id": 1, "questions.question": 1, "questions.options": 1, notes: 1 })
         let checkExamPaperGenerated = await examPapersData.findOne({ studentId, subjectId, isPaperGenerated: true })
         if (!checkExamPaperGenerated) {
@@ -179,7 +178,7 @@ const examPaperController = async (req, res) => {
         })
         return res.json({ statusCode: 200, message: "Exam Paper", data: examDataObject })
     } catch (error) {
-        return res.json({ statusCode: 500, message: error, data: null })
+        return res.json({ statusCode: 500, message: error.message, data: null })
     }
 }
 
