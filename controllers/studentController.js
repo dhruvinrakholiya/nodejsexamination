@@ -83,14 +83,15 @@ const studentProfileController = async (req, res) => {
     try {
         errorMsg(await studentValidation(req.obj))
         const { name } = req.body
+        if(!name) throw new Error('Name is not Provided')
+        console.log('req.body :>> ', req.body);
         const studentObject = await UserData.findOneAndUpdate({ email: req.obj }, { $set: { name } }, { new: true })
 
-        return res.json({ statusCode: 200, message: "View student profile successfully", data: { name: studentObject.name, email: studentObject.email, id: studentObject._id } })
+        return res.json({ statusCode: 200, message: "Update student profile successfully", data: { name: studentObject.name, email: studentObject.email, id: studentObject._id } })
     } catch (error) {
         return res.json({ statusCode: 500, message: error.message, data: null })
     }
 }
-
 //Student give exam
 const giveExamController = async (req, res) => {
     try {

@@ -6,7 +6,7 @@ const { studentExamController, studentProfileController, giveExamController, exa
 const router = express.Router();
 
 router.get('/studentExam', TokenVerify, studentExamController)
-router.put('/studentProfile', TokenVerify, validate(editProfileValidation), studentProfileController)
+router.put('/studentProfile', TokenVerify, studentProfileController)
 router.get('/getStudentDetail', TokenVerify, getStudentProfileController)
 router.get('/examPaper', TokenVerify, examPaperController)
 router.post('/giveExam', TokenVerify, validate(giveExamValidation), giveExamController)
