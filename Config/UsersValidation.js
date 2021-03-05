@@ -64,7 +64,7 @@ const editExamValidation = {
 
 let giveAnswerValidate = Joi.object().keys({
     question: Joi.string().required(),
-    answer: Joi.string()
+    answer: Joi.string().allow('').required()
 })
 const giveExamValidation = {
     body: Joi.array().items(giveAnswerValidate).min(7).required()
