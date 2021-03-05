@@ -129,7 +129,7 @@ const ResetPasswordController = async (req, res) => {
         const UserObject = await UserData.findOne({ email: UserEmail })
         const comparePassword = await bcrypt.compare(oldPassword, UserObject.password)
         if (!comparePassword) throw new Error("Invalid Old Password");
-        const oldComparePassword = await bcrypt.compare(UserObject.password, Password)
+        const oldComparePassword = await bcrypt.compare(Password,UserObject.password)
         if (oldComparePassword) throw new Error("Old password or new password are same")
         
         const userPassword = await bcrypt.hash(Password, saltRounds);
