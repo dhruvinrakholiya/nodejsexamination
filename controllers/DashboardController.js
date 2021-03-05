@@ -91,7 +91,7 @@ const examDetailController = async (req, res) => {
         errorMsg(await TeacherValidation(TeacherMail))
         const id = req.query.id
         if (!id) throw new Error('Exam ID not found')
-        const examObject = await ExamsData.findOne({ _id: id, email: TeacherMail, status: true }, { questions: { question: 1, options: 1 }, _id: 0 })
+        const examObject = await ExamsData.findOne({ _id: id, email: TeacherMail, status: true }, { questions: { question: 1, options: 1, answer: 1}, _id: 0 })
         if (!examObject) throw Error("Exam Not Found")
         return res.json({ statusCode: 200, message: "View exam detail successfully", data: examObject })
     } catch (error) {
